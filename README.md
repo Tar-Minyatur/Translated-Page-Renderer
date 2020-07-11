@@ -17,6 +17,27 @@ of the same page, each in a different language.
 
 ## Context
 
+### Architecture Overview
+
 This is a rough overview of a possible plan to tackle the entire FAH translation project. The current scope of the application in this repository is outlined in red:
 
 ![FAH Translation Project Architecture Overview](https://github.com/Tar-Minyatur/Translated-Page-Renderer/blob/master/docs/fah-translation-architecture-overview.svg)
+
+### Assumptions
+
+We currently design the solution for the translation system with the current assumptions in mind:
+
+* No custom plugin for Wordpress, but instead we build a standalone system that integrates through the Wordpress API
+* We don't want to interfere with the editorial side of things and not put any restrictions on how pages can be designed within Wordpress
+
+### Process Proposal
+
+This is how I currently imagine the process to work on a high level:
+
+1. *Automated:* We export the raw HTML content for all relevant posts/pages from Wordpress through the Wordpress API
+2. *Automated:* For each page we create an HTML file containing the original post content and push all of them to a new branch in a GitHub repository
+3. *Automated, Optional:* The extractor component runs a first conversion on the files and isolates the text blocks to be translated, surrounds them with `<fah-text>` and writes the texts as message IDs into the corresponding .po file
+4. *Manual:* Someone from the project team goes through the template files and cleans up the message IDs, ensures that all of them make sense and don't break any of the layout or mess with the shortcodes in the content (e.g. `[vc_column]` etc.)
+5. *Semi-Automated:* When they are ready, the templates are merged into master of the template repository and the new translation files are pushed into the Translate repository
+6. *Automated:* To generate/update the translated pages in Wordpress, a rendering component pulls the templates from one and the translation files from the second repository, replaces all occurences of `<fah-text>` with the corresponding text blocks and provides the rendered HTML
+7. *Automated:* The Wordpress API integration component checks for existing pages and either updates them or creates new ones
