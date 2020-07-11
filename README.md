@@ -54,3 +54,5 @@ This is how I currently imagine the process to work on a high level:
   * To do so, we want to use Markdown for simple inline formatting.
   * Generating these text block automatically is a bit challenging and a potential source of errors.
 * All in all it seems unlikely that we will be able to build a fully automated extraction mechanism that perfectly converts the raw posts from Wordpress into translation files and templates in one go without messing up at least some message IDs.
+  * It would be a lot easier to have the text blocks marked earlier in the process, i.e. during the design phase.
+  * Alternatively, aligning more closely how pages will be built and what the translation system would have to support would make the decision-making process easier.
